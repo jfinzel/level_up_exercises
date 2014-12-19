@@ -12,21 +12,13 @@ class Dinosaur
   }
 
   def initialize(attributes = {})
-    self.name = ""
-    self.period = ""
-    self.continent = ""
-    self.diet = ""
-    self.walking = ""
-    self.description = ""
-    self.weight = 0
-    assign_attributes(attributes)
-  end
-
-  def assign_attributes(attributes)
-    attributes.each { |key, value| send("#{key}=", value) }
-  rescue
-    raise "Invalid attributes hash: must contain attributes "\
-          "of Dinosaur class in format { attribute: value }"
+    self.name = attributes[:name] || nil
+    self.period = attributes[:period] || nil
+    self.continent = attributes[:continent] || nil
+    self.diet = attributes[:diet] || nil
+    self.walking = attributes[:walking] || nil
+    self.description = attributes[:description] || nil
+    self.weight = attributes[:weight] || 0
   end
 
   def weight=(new_weight)
@@ -45,20 +37,16 @@ class Dinosaur
     instance_variables.map { |name| map_variables(name) }.join("")
   end
 
+  private
+
   def map_variables(name)
     value = instance_variable_get(name)
-    printable?(value) ? format_line(name, value) : ""
+    format_variable = name.to_s.sub("@", "").titleize
+    return "" unless printable?(value)
+    "#{format_variable}: #{value}\n"
   end
 
   def printable?(value)
-    true unless value.nil? || value == 0 || value == ""
-  end
-
-  def format_variable(name)
-    name.to_s.sub("@", "").titleize
-  end
-
-  def format_line(name, value)
-    "#{format_variable(name)}: #{value}\n"
+    !(value.nil? || value == 0 || value == "")
   end
 end

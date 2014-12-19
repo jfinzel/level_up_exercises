@@ -2,10 +2,10 @@ require_relative 'objects_filter'
 
 class DinosaurInfo
   attr_accessor :dinosaurs, :dinosaurs_filtered, :filters_applied
-  TO_S_LINE = "----------------------\n"
+  TO_S_LINE = "\n----------------------\n"
 
-  def initialize(d)
-    @dinosaurs = d
+  def initialize(new_dinosaurs)
+    self.dinosaurs = new_dinosaurs
   end
 
   # filters should be in the following format
@@ -17,24 +17,8 @@ class DinosaurInfo
 
   def to_s(include_filter = false)
     dinos = include_filter ? dinosaurs_filtered : dinosaurs
-    output = to_s_title(include_filter) + $RS + TO_S_LINE
-    output << dinosaurs_to_s(dinos)
-  end
-
-  def to_s_title(include_filter = false)
-    if include_filter
-      "DinoDex current Dinosaur Info Last Filter (#{filters_applied}):"
-    else
-      "DinoDex current Dinosaur Info:"
-    end
-  end
-
-  def dinosaurs_to_s(dinos)
-    dinos.map { |dino| dinosaur_line(dino) }.join("")
-  end
-
-  def dinosaur_line(dino)
-    dino.to_s + $RS + TO_S_LINE
+    output = title(include_filter) + TO_S_LINE
+    output << formatted_dinosaurs(dinos)
   end
 
   def to_json(include_filter = false)
@@ -43,5 +27,19 @@ class DinosaurInfo
     else
       dinosaurs.to_json
     end
+  end
+
+  private
+
+  def title(include_filter = false)
+    if include_filter
+      "DinoDex current Dinosaur Info Last Filter (#{filters_applied}):"
+    else
+      "DinoDex current Dinosaur Info:"
+    end
+  end
+
+  def formatted_dinosaurs(dinos)
+    dinos.map { |dino| dino.to_s }.join(TO_S_LINE)
   end
 end

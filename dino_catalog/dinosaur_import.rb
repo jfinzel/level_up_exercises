@@ -6,27 +6,23 @@ class DinosaurImport
 
   DEFAULT_OPTIONS = {
     headers: true,
-    col_sep: ',',
+    col_sep: ','
   }
   AUTOCONVERT_KEYS = {
     "genus" => "name",
     "weight_in_lbs" => "weight",
-    "carnivore" => "diet",
+    "carnivore" => "diet"
   }
   AUTOCONVERT_KEYS_VALUES = {
     "diet" => { "Yes" => "Carnivore",
-                "No" => nil },
+                "No" => nil }
   }
 
   def initialize(csv_files)
-    csv_files_to_dinosaurs(csv_files)
+    self.dinosaurs = csv_files.map { |csv_file| data_to_dinosaurs(csv_file) }.flatten
   end
 
   private
-
-  def csv_files_to_dinosaurs(csv_files)
-    self.dinosaurs = csv_files.map { |csv_file| data_to_dinosaurs(csv_file) }.flatten
-  end
 
   def data_to_dinosaurs(csv_file)
     CSV.read(csv_file, DEFAULT_OPTIONS).map { |row| row_to_dinosaur(row) }
@@ -37,16 +33,14 @@ class DinosaurImport
   end
 
   def convert_import_hash(hash)
-    Hash[hash.map { |key, value| convert_import_key_value(key, value) }]
-  end
-
-  def convert_import_key_value(key, value)
-    key_converted = convert_import_key(key)
-    [key_converted, convert_import_value(key_converted, value)]
+    hash.each_with_object({}) do |(key, value), final_hash|
+      key_converted = convert_import_key(key)
+      final_hash[key_converted] = convert_import_value(key_converted, value)
+    end
   end
 
   def convert_import_key(key)
-    AUTOCONVERT_KEYS.fetch(key.downcase, key.downcase)
+    AUTOCONVERT_KEYS.fetch(key.downcase, key.downcase).to_sym
   end
 
   def convert_import_value(key_converted, value)
