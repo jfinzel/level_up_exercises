@@ -6,6 +6,8 @@ class ObjectsFilter
     objects
   end
 
+  private
+
   def self.operator_filters(objects, operator, attributes_values)
     filter_exception unless attributes_values.class == Hash
     attributes_values.each do |attribute, value|
@@ -30,4 +32,13 @@ class ObjectsFilter
           "{ operator <string> => { attribute: value } }, "\
           "i.e. { \"==\" => { gender: \"male\", age: 45 } } "
   end
+
+  # Filter = Struct.new(:operator, :attribute, :value)
+  # def self.filterify(filters)
+  #   filters.each_with_object([]) do |(operator, attributes_values), filter_objects|
+  #     attributes_values.each do |attribute, value|
+  #       filter_objects.push(Filter.new(operator, attribute, value))
+  #     end
+  #   end
+  # end
 end
