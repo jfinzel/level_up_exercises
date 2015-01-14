@@ -1,13 +1,13 @@
 require 'abanalyzer'
 
 class Sample
-  attr_accessor :sample, :result_key, :valid_result
-  attr_reader :size, :conversions
+  attr_accessor :result_key, :valid_result
+  attr_reader :sample, :size, :conversions
   RESULT_KEY_DEFAULT = "result"
   VALID_RESULT_DEFAULT = 1
 
   def initialize(results, field_info = {})
-    self.sample = results
+    @sample = results
     self.result_key = field_info.fetch(:result_key, RESULT_KEY_DEFAULT)
     self.valid_result = field_info.fetch(:valid_result, VALID_RESULT_DEFAULT)
   end

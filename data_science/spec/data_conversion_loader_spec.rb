@@ -9,7 +9,7 @@ describe DataConversionLoader do
   end
 
   it "should be able to parse the correct fields", :happy do
-    DATA_FIELDS.each { |field| expect(data[0]).to have_key(field) }
+    expect(data[0].keys).to eq(DATA_FIELDS)
   end
 
   it "should have the same number of array elements as JSON elements", :happy do
@@ -22,6 +22,6 @@ describe DataConversionLoader do
   end
 
   it "should keep the same fields after filter", :happy do
-    DATA_FIELDS.each { |field| expect(data_a[0]).to have_key(field) }
+    expect(data_a[0].keys).to eq(DATA_FIELDS)
   end
 end

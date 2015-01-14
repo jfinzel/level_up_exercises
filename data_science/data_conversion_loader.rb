@@ -12,8 +12,4 @@ class DataConversionLoader
   def sample_data(sample)
     data.select { |user| user[sample_key] == sample }
   end
-
-  def to_s
-    data
-  end
 end

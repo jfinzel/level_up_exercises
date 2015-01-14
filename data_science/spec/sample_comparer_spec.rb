@@ -7,7 +7,7 @@ describe SampleComparer do
   let(:comparer_different) { SampleComparer.new(sample_a, sample_b) }
 
   it "says an identical data set is not different", :happy do
-    expect(comparer_same.different?).to be(false)
+    expect(comparer_same).not_to be_different
   end
 
   it "says chisquare_p is smaller than #{CONFIDENCE}", :happy do
