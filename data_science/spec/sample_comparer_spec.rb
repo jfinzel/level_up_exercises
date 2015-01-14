@@ -6,15 +6,15 @@ describe SampleComparer do
   let(:comparer_same) { SampleComparer.new(sample_a, sample_a) }
   let(:comparer_different) { SampleComparer.new(sample_a, sample_b) }
 
-  it "says an identical data set is not different" do
+  it "says an identical data set is not different", :happy do
     expect(comparer_same.different?).to be(false)
   end
 
-  it "says chisquare_p is smaller than #{CONFIDENCE}" do
+  it "says chisquare_p is smaller than #{CONFIDENCE}", :happy do
     expect(comparer_different.chisquare_p).to be < CONFIDENCE
   end
 
-  it "says a different data set is different" do
+  it "says a different data set is different", :happy do
     expect(comparer_different.different?).to be(true)
   end
 end
